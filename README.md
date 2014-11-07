@@ -1,6 +1,8 @@
 # Summoner's rift map gen
 This simple script will scrape riot's promotional website about the new summoner's rift updtate to get all the images and create a merged version.
+
 There are 4 zoom levels, from 6 to 3, with 6 being the most zoomed in(and the most detailed/and big map).
+
 Beware, lvl 6 will create a file > 100MB
 
 #### Usage
