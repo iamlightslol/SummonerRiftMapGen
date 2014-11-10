@@ -1,4 +1,4 @@
-import urllib
+import urllib.request
 from PIL import Image
 import sys
 
@@ -14,30 +14,31 @@ resize = 0
 
 def download_map():
 	for x in range(0,cols):
-		print 'Column %i of %i' % (x + 1, cols),
+		print('Column %i of %i' % (x + 1, cols), end='')
 		for y in range(0,rows):
-			print '-',
+			print('-', end='')
 			img_file = "map/%i-%i.png" % (x,y)
 			img_url = url % (zoom_level,x,y)
-			urllib.urlretrieve(img_url, img_file)
-		print ''
+			urllib.request.urlretrieve(img_url, img_file)
+			# urllib.request.urlopen(url).read()
+		print('')
 
 def merge_map():
 	full_h = tile_size * (rows-1)
 	full = Image.new("RGB", (cols * tile_size, rows * tile_size), "white")
 	for x in range(0,cols):
-		print 'Column %i of %i' % (x + 1, cols),
+		print('Column %i of %i' % (x + 1, cols), end=''),
 		for y in range(0,rows):
-			print '-',
+			print('-', end='')
 			tile = Image.open("map/%i-%i.png" % (x,y))
 			full.paste(tile,(x * tile_size,full_h - y * tile_size))
-		print ''
+		print('')
 	if resize > 0:
 		wpercent = (resize/float(full.size[0]))
 		hsize = int((float(full.size[1])*float(wpercent)))
-		print 'Resizing to %ix%i' % (resize, hsize)
+		print('Resizing to %ix%i' % (resize, hsize))
 		full = full.resize((resize,hsize), Image.ANTIALIAS)
-	print 'Saving'
+	print('Saving')
 	full.save("full.png")
 
 if __name__ == '__main__':
@@ -49,11 +50,11 @@ if __name__ == '__main__':
 	cols = levels[zoom_level][0]
 	rows = levels[zoom_level][1]
 
-	print "Downloading map at zoom level %s" % zoom_level
+	print("Downloading map at zoom level %s" % zoom_level)
 	download_map()
-	print "Merging"
+	print("Merging")
 	merge_map()
-	print "Done"
+	print("Done")
 
 
 
